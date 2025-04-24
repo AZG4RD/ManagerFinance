@@ -2,6 +2,7 @@ package FinanceApp.service.Category;
 
 import FinanceApp.dto.Category.CategoryRequest;
 import FinanceApp.dto.Category.CategoryResponse;
+import FinanceApp.exception.Category.CategoryNotFoundException;
 import FinanceApp.model.Category;
 import FinanceApp.repository.CategoryRepository;
 import org.modelmapper.ModelMapper;
@@ -76,6 +77,6 @@ public class CategoryServiceImpl implements CategoryService {
             throw new CategoryNotFoundException("Category not found");
         }
         categoryRepository.deleteById(categoryId);
-        return ResponseEntity.ok("Категория успешно удалена")
+        return ResponseEntity.ok("Категория успешно удалена");
     }
 }

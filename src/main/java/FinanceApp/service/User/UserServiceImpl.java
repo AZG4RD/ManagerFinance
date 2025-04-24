@@ -99,7 +99,7 @@ public class UserServiceImpl implements UserService {
         User user = optionalUser.get();
 
         if (user.getDeletedAt() != null) {
-            throw new UserAlreadyDeletedException("Пользователь удален);
+            throw new UserAlreadyDeletedException("Пользователь удален");
         }
 
         user.setDeletedAt(LocalDateTime.now());

@@ -2,6 +2,7 @@ package FinanceApp.service.Transaction;
 
 import FinanceApp.dto.Transaction.TransactionRequest;
 import FinanceApp.dto.Transaction.TransactionResponse;
+import FinanceApp.exception.Transaction.TransactionNotFoundException;
 import FinanceApp.model.Transaction;
 import FinanceApp.model.User;
 import FinanceApp.repository.TransactionRepository;
@@ -50,7 +51,7 @@ public class TransactionServiceImpl implements TransactionService {
     public TransactionResponse create(TransactionRequest transactionRequest) {
         User user = getCurrentUser();
         Transaction transaction = modelMapper.map(transactionRequest, Transaction.class);
-        transaction.setUserId(user.getUserId());
+        transaction.setUserId(user.getUserid());
         Transaction savedTransaction = transactionRepository.save(transaction);
         return modelMapper.map(savedTransaction, TransactionResponse.class);
     }
@@ -64,7 +65,7 @@ public class TransactionServiceImpl implements TransactionService {
             throw new TransactionNotFoundException("Транзакция не найдена");
         }
         Transaction transaction = transactionOptional.get();
-        if (!transaction.getUserId().equals(user.getUserId())){
+        if (!transaction.getUserId().equals(user.getUserid())){
             throw new TransactionNotFoundException("Транзакция не найдена для текущего пользователя");
         }
         return modelMapper.map(transactionRequest, TransactionResponse.class);
@@ -77,7 +78,7 @@ public class TransactionServiceImpl implements TransactionService {
             throw new TransactionNotFoundException("Транзакция не найдена");
         }
         Transaction transaction = transactionOptional.get();
-        if(!transaction.getUserId().equals(user.getUserId())){
+        if(!transaction.getUserId().equals(user.getUserid())){
             throw new TransactionNotFoundException("Транзакция не найдена для текущего пользователя");
         }
         return modelMapper.map(transaction, TransactionResponse.class);
@@ -89,7 +90,7 @@ public class TransactionServiceImpl implements TransactionService {
         List<TransactionResponse> list = new ArrayList<>();
         Iterable<Transaction> allTransactions = transactionRepository.findAll();
         for (Transaction transaction : allTransactions) {
-            if(transaction.getUserId().equals(user.getUserId())){
+            if(transaction.getUserId().equals(user.getUserid())){
             list.add(modelMapper.map(transaction, TransactionResponse.class));
         }
     }
@@ -105,7 +106,7 @@ public class TransactionServiceImpl implements TransactionService {
             throw new TransactionNotFoundException("Транзакция не найдена");
         }
         Transaction transaction = transactionOptional.get();
-        if(!transaction.getUserId().equals(user.getUserId())){
+        if(!transaction.getUserId().equals(user.getUserid())){
             throw new TransactionNotFoundException("Транзакция не найдена для текущего пользователя");
         }
         transactionRepository.deleteById(transactionId);
